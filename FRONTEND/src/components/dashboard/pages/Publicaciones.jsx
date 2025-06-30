@@ -4,12 +4,12 @@ import HeaderPublicaciones from "../components/List/HeaderP";
 import SearchP from "../components/List/SearchP";
 import Registro from "../components/List/Registro";
 import { API_KEY, API_BASE_URL } from "../../../config/env.jsx";
-import { AuthContext } from "../../../context/AuthContext.jsx"; // Importa tu contexto
+import { AuthContext } from "../../../context/AuthContext.jsx";
 
 const Publicaciones = () => {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const { user, admin } = useContext(AuthContext); // Obtén el usuario actual
+  const { user, admin } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -18,9 +18,7 @@ const Publicaciones = () => {
       });
       const data = await response.json();
 
-      // Filtra según el tipo de usuario
       let visibles = data;
-      console.log(user.admin);
       if (!admin) {
         visibles = data.filter((post) => post.userId === user.id);
       }
@@ -31,7 +29,19 @@ const Publicaciones = () => {
     fetchPosts();
   }, [user]);
 
-  // Función de búsqueda por título o fecha
+  const refreshPosts = async () => {
+    const response = await fetch(`${API_BASE_URL}/prisma/post/page`, {
+      headers: { "x-api-key": API_KEY },
+    });
+    const data = await response.json();
+    let visibles = data;
+    if (!admin) {
+      visibles = data.filter((post) => post.userId === user.id);
+    }
+    setPosts(visibles);
+    setFilteredPosts(visibles);
+  };
+
   const handleSearch = (query) => {
     const lowerQuery = query.toLowerCase();
     const result = posts.filter((post) => {
@@ -46,21 +56,42 @@ const Publicaciones = () => {
   };
 
   return (
-    <div className="flex-1 p-6 mt-16">
+    <div
+      className="flex-1 p-4 sm:p-6 mt-16 sm:ml-56 transition-all duration-300"
+      style={{ overflowX: "hidden" }}
+    >
       <HeaderPublicaciones
         tipo={"Blog"}
-        descripcion={"Gestiona todos las publicaciones en la plataforma"}
+        descripcion={"Gestiona todas las publicaciones en la plataforma"}
         textoBoton={"+ Nueva Publicación"}
-        onNuevaPublicacion={true}
+        onNuevaPublicacion={refreshPosts}
       />
+
       <div className="mb-4">
         <SearchP
           placeholder="Buscar publicaciones..."
           onSearch={handleSearch}
         />
       </div>
-      {/* revisar */}
-      <Registro layoutMode={2} tipo={"Blog"} posts={filteredPosts} />
+
+      {/* Contenedor que permite scroll horizontal en móviles */}
+      <div
+        style={{
+          width: "100%",
+          overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        <div style={{ width: "900px" }}>
+          <Registro
+            layoutMode={2}
+            tipo={"Blog"}
+            posts={filteredPosts}
+            onDelete={refreshPosts}
+            onEdit={refreshPosts}
+          />
+        </div>
+      </div>
     </div>
   );
 };

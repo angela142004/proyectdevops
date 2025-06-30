@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import ModalForm from "./ModalForm";
 import banner1 from "../assets/banner1.jpg";
 import banner2 from "../assets/banner2.jpg";
 import banner3 from "../assets/banner3.jpg";
-// Ajusta la ruta si tu estructura es diferente
 
 const levels = [
   {
@@ -31,6 +32,8 @@ export default function Level() {
   const [selectedLevel, setSelectedLevel] = useState("");
 
   useEffect(() => {
+    AOS.init({ duration: 800, once: true });
+
     const id = setInterval(
       () => setCurrent((prev) => (prev + 1) % bannerImages.length),
       3000
@@ -47,38 +50,37 @@ export default function Level() {
 
   return (
     <>
-      <section className="flex flex-col md:flex-row w-full min-h-[700px]">
-        {/* Banner celeste */}
-        <div
-          className="w-full md:w-2/5 flex items-center justify-center py-8"
-          style={{ backgroundColor: "#6698BC" }}
-        >
+      <section className="flex flex-col lg:flex-row w-full h-auto overflow-hidden bg-white">
+        {/* Columna izquierda: Imagen */}
+        <div className="w-full lg:w-2/5 bg-[#6698BC] flex items-center justify-center p-6 sm:p-8">
           <img
             src={bannerImages[current]}
             alt={`Banner ${current + 1}`}
-            className="w-[500px] h-[550px] object-cover rounded-xl shadow transition-opacity duration-700"
+            className="w-[80%] sm:w-[70%] md:w-[65%] lg:w-[80%] h-auto object-contain rounded-xl shadow-xl transition-opacity duration-700"
           />
         </div>
 
-        {/* Rectángulos de niveles */}
-        <div className="w-full md:w-3/5 bg-gray-50 flex flex-col items-start justify-start gap-8 p-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#003049] mb-6">
+        {/* Columna derecha: Info de niveles */}
+        <div className="w-full lg:w-3/5 px-4 sm:px-6 md:px-10 py-10 bg-gray-50 flex flex-col gap-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#003049] mb-4 text-center lg:text-left">
             NUESTROS NIVELES EDUCATIVOS
           </h2>
 
           {levels.map((level, index) => (
             <div
               key={level.name}
-              className={`w-full max-w-2xl bg-[#003049] text-white px-6 py-6 shadow rounded-xl flex flex-col transition-all
-                ${index === 1 ? "ml-16" : index === 2 ? "ml-32" : "ml-0"}
-              `}
+              className="bg-[#003049] text-white px-4 py-6 sm:px-6 rounded-xl shadow-md flex flex-col gap-4 max-w-3xl mx-auto lg:mx-0"
+              data-aos="fade-up"
+              data-aos-delay={index * 200}
             >
-              <h3 className="text-xl font-bold mb-2">{level.name}</h3>
-              <div className="flex flex-row items-center justify-between gap-4">
-                <p className="text-base flex-1">{level.description}</p>
+              <h3 className="text-lg sm:text-xl font-bold">{level.name}</h3>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <p className="text-sm sm:text-base flex-1">
+                  {level.description}
+                </p>
                 <button
-                  className="bg-[#780000] text-white font-semibold px-5 py-2 rounded hover:bg-[#a5123b] shadow transition text-lg"
                   onClick={() => openModal(level.name)}
+                  className="bg-[#780000] text-white font-semibold px-5 py-2 rounded hover:bg-[#a5123b] shadow transition text-sm sm:text-base w-full sm:w-auto"
                 >
                   ÚNETE
                 </button>
@@ -87,6 +89,7 @@ export default function Level() {
           ))}
         </div>
       </section>
+
       <ModalForm open={modalOpen} onClose={closeModal} level={selectedLevel} />
     </>
   );

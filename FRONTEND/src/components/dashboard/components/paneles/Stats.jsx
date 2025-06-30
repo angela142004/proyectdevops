@@ -12,7 +12,7 @@ const defaultStats = [
         size={28}
       />
     ),
-    trend: "+7% vs mes anterior",
+
     trendColor: "text-green-600",
   },
   {
@@ -25,7 +25,6 @@ const defaultStats = [
         size={28}
       />
     ),
-    trend: "+18% vs mes anterior",
     trendColor: "text-green-600",
   },
   {
@@ -38,11 +37,10 @@ const defaultStats = [
         size={28}
       />
     ),
-    trend: "+22% vs mes anterior",
     trendColor: "text-green-600",
   },
   {
-    title: "Visualizaciones",
+    title: "Interesados",
     value: 663,
     description: "Vistas totales",
     icon: (
@@ -51,12 +49,11 @@ const defaultStats = [
         size={28}
       />
     ),
-    trend: "+18% vs mes anterior",
     trendColor: "text-green-600",
   },
 ];
 
-const Stats = ({ posts }) => (
+const Stats = ({ posts, interesados }) => (
   <section className="mb-8 mt-6">
     {/* ↑↑↑ Agregado mt-6 para separar del Header */}
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -73,7 +70,7 @@ const Stats = ({ posts }) => (
             {stat.title}
           </span>
           <span className="text-3xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-            {posts[idx]}
+            {posts[idx] || interesados}
           </span>
           <span className="text-xs text-gray-500">{stat.description}</span>
           <span className={`text-xs mt-2 ${stat.trendColor}`}>

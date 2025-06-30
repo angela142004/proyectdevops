@@ -15,7 +15,10 @@ export default function HeaderPublicaciones({
 
   const handleFormSubmit = (data) => {
     console.log("Formulario enviado:", data);
-    // Aquí puedes hacer una petición o guardar el estado
+    if (typeof onNuevaPublicacion === "function") {
+      onNuevaPublicacion();
+    }
+    setModalOpen(false);
   };
 
   return (
@@ -26,7 +29,7 @@ export default function HeaderPublicaciones({
       </div>
       <Button
         className="bg-black hover:bg-gray-800 px-6 py-2 rounded-lg font-semibold"
-        onClick={(tipo!='Usuarios'?handleOpenModal:onNuevaPublicacion)}
+        onClick={(tipo != "Usuarios" ? handleOpenModal : onNuevaPublicacion)}
       >
         {textoBoton}
       </Button>
@@ -40,8 +43,6 @@ export default function HeaderPublicaciones({
     </div>
   );
 }
-
-
 
 // import React from "react";
 // import { Button } from "../UI";

@@ -1,8 +1,11 @@
+// src/components/Blog_post.jsx
 import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import { API_KEY, API_BASE_URL } from "../config/env.jsx";
 import img4 from "../assets/blog_post1.jpg";
 import { Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Blog_post = () => {
   const [posts, setPosts] = useState([]);
@@ -12,91 +15,94 @@ const Blog_post = () => {
   const pageSize = 4;
 
   useEffect(() => {
+    AOS.init({ duration: 1000, once: false, offset: 100 });
+  }, []);
+
+  useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/prisma/post/page?tipo=2`,
-          {
-            headers: {
-              "x-api-key": API_KEY,
-            },
-            cache: "no-cache",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Error al obtener los posts del blog");
-        }
-
-        const data = await response.json();
-        setPosts(data);
-        console.log(data)
+        const res = await fetch(`${API_BASE_URL}/prisma/post/page?tipo=2`, {
+          headers: { "x-api-key": API_KEY },
+          cache: "no-cache",
+        });
+        if (!res.ok) throw new Error("Error al obtener los posts del blog");
+        setPosts(await res.json());
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchPosts();
   }, []);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("es-ES", {
+  const formatDate = (dateString) =>
+    new Date(dateString).toLocaleDateString("es-ES", {
       day: "2-digit",
       month: "long",
       year: "numeric",
     });
-  };
 
-  // Calcular los posts a mostrar en la página actual
   const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedPosts = posts.slice(startIndex, endIndex);
+  const paginatedPosts = posts.slice(startIndex, startIndex + pageSize);
 
   return (
-    <section className="px-6 py-10 bg-[#f0e4d0]">
-      <h2 className="text-5xl md:text-6xl font-black text-center mb-8 text-[#003049]">
+    <section className="bg-[#f0e4d0] py-10 px-4 sm:px-6 lg:px-8">
+      {/* Título y descripción */}
+      <h2
+        className="text-3xl sm:text-5xl font-black text-center mb-6 text-[#003049]"
+        data-aos="fade-up"
+      >
         Publicaciones
       </h2>
-      <p className="text-lg md:text-1x5 text-[#3B4D61] text-center max-w-2xl mx-auto mb-8">
+      <p
+        className="max-w-2xl mx-auto text-[#3B4D61] text-sm sm:text-base text-center mb-10"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
         Aquí compartimos reflexiones, novedades y recomendaciones para
         acompañarte en el crecimiento y formación de tus hijos dentro y fuera
         del aula.
       </p>
+
+      {/* Contenido */}
       {loading ? (
-        <div className="text-center text-white">Cargando publicaciones...</div>
+        <p className="text-center text-gray-600">Cargando publicaciones…</p>
       ) : error ? (
-        <div className="text-center text-red-500">{error}</div>
+        <p className="text-center text-red-500">{error}</p>
       ) : (
         <>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-25">
-            {paginatedPosts.map((post) => (
+          {/* Tarjetas */}
+          <div
+            className="mx-auto grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl justify-items-center"
+            data-aos="fade-up"
+          >
+            {paginatedPosts.map((post, idx) => (
               <div
                 key={post.id}
-                className="border-2x1 shadow-lg rounded overflow-hidden bg-[#780000] hover:bg-[#003049] transition duration-300"
+                className="w-full max-w-[260px] border-2x1 shadow-md rounded-lg overflow-hidden bg-[#780000] hover:bg-[#003049] transition duration-300 flex flex-col"
+                data-aos="zoom-in-up"
+                data-aos-delay={idx * 100}
               >
-                <div className="relative">
-                  <img
-                    src={
-                      post.images?.length > 0 ? post.images[0].image_url : img4
-                    }
-                    alt={post.title}
-                    className="w-65  my-5  h-65 object-cover mx-auto rounded"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg text-white mb-1">
+                {/* Imagen con margen rojo conservado */}
+                <img
+                  src={post.images?.[0]?.image_url || img4}
+                  alt={post.title}
+                  className="w-52 h-52 object-cover mx-auto my-5 rounded border-4 border-[#780000]"
+                  loading="lazy"
+                />
+
+                {/* Texto */}
+                <div className="p-3 flex flex-col flex-1">
+                  <h3 className="font-semibold text-base text-white mb-1">
                     {post.title}
                   </h3>
-                  <p className="text-sm text-white">
+                  <p className="text-xs text-white mb-2">
                     {formatDate(post.created_at)}
                   </p>
                   <Link
                     to={`/Blog/${post.id}`}
-                    className="flex items-center gap-1 text-blue-300 hover:underline ml-45"
+                    className="mt-auto flex items-center gap-1 text-blue-300 hover:underline text-sm"
                   >
                     Leer más
                     <svg
@@ -118,7 +124,9 @@ const Blog_post = () => {
               </div>
             ))}
           </div>
-          <div className="flex justify-center mt-8">
+
+          {/* Paginación */}
+          <div className="flex justify-center mt-10">
             <Pagination
               current={currentPage}
               pageSize={pageSize}

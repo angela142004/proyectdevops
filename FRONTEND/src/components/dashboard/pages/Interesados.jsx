@@ -7,7 +7,6 @@ export const Interesados = () => {
   const [interesados, setInteresados] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Se obtiene la lista de interesados al montar el componente
   useEffect(() => {
     fetchInteresados();
   }, []);
@@ -26,7 +25,6 @@ export const Interesados = () => {
 
       if (!response.ok) throw new Error("Error al obtener los interesados");
       const data = await response.json();
-      console.log(data);
       setInteresados(
         data.map((item, idx) => ({
           key: item.id || idx,
@@ -57,7 +55,6 @@ export const Interesados = () => {
       );
 
       if (!response.ok) throw new Error("Error al eliminar");
-      // Actualiza la lista eliminando el registro borrado
       setInteresados((prev) => prev.filter((item) => item.id !== record.id));
       message.success("Interesado eliminado correctamente");
     } catch (error) {
@@ -121,18 +118,30 @@ export const Interesados = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col items-center p-4">
+    <div
+      className="flex-1 p-4 sm:p-6 mt-16 sm:ml-56 transition-all duration-300"
+      style={{ overflowX: "hidden" }}
+    >
       <h2 className="text-xl font-bold mb-4">Interesados</h2>
-      {/* Contenedor con overflow para manejar tablas anchas en dispositivos pequeños */}
-      <div className="w-full overflow-x-auto">
-        <Table
-          columns={columns}
-          dataSource={interesados}
-          loading={loading}
-          pagination={{ pageSize: 5 }}
-          bordered
-          scroll={{ x: "max-content" }}
-        />
+
+      {/* Scroll horizontal en celulares */}
+      <div
+        style={{
+          width: "100%",
+          overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        <div style={{ width: "1000px" }}>
+          <Table
+            columns={columns}
+            dataSource={interesados}
+            loading={loading}
+            pagination={{ pageSize: 5 }}
+            bordered
+            scroll={{ x: "max-content" }}
+          />
+        </div>
       </div>
     </div>
   );

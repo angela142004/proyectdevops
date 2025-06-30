@@ -20,7 +20,6 @@ const Eventos = () => {
       console.log("Todos los posts recibidos:", data);
 
       let visibles = data;
-      console.log(user.admin);
       if (!admin) {
         visibles = data.filter((post) => post.userId === user.id);
       }
@@ -30,6 +29,19 @@ const Eventos = () => {
     };
     fetchEventos();
   }, [user]);
+
+  const refreshEventos = async () => {
+    const response = await fetch(`${API_BASE_URL}/prisma/post/page`, {
+      headers: { "x-api-key": API_KEY },
+    });
+    const data = await response.json();
+    let visibles = data;
+    if (!admin) {
+      visibles = data.filter((post) => post.userId === user.id);
+    }
+    setEventos(visibles);
+    setFilteredEventos(visibles);
+  };
 
   const handleSearch = (query) => {
     const lowerQuery = query.toLowerCase();
@@ -45,17 +57,39 @@ const Eventos = () => {
   };
 
   return (
-    <div className="flex-1 p-6 mt-16">
+    <div
+      className="flex-1 p-4 sm:p-6 mt-16 sm:ml-56 transition-all duration-300"
+      style={{ overflowX: "hidden" }}
+    >
       <HeaderPublicaciones
         tipo={"Evento"}
         descripcion={"Gestiona todos los eventos en la plataforma"}
         textoBoton={"+ Nuevo Evento"}
+        onNuevaPublicacion={refreshEventos}
       />
+
       <div className="mb-4">
         <SearchP placeholder="Buscar eventos..." onSearch={handleSearch} />
       </div>
 
-      <Registro layoutMode={1} tipo={"Evento"} posts={filteredEventos} />
+      {/* Scroll horizontal en móviles */}
+      <div
+        style={{
+          width: "100%",
+          overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        <div style={{ width: "900px" }}>
+          <Registro
+            layoutMode={1}
+            tipo={"Evento"}
+            posts={filteredEventos}
+            onDelete={refreshEventos}
+            onEdit={refreshEventos}
+          />
+        </div>
+      </div>
     </div>
   );
 };

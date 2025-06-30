@@ -12,10 +12,12 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import ErrorPage from "../pages/ErrorPage";
 import { Panelout } from "../components/dashboard/Panelout";
 import BlogDetalle from "../pages/BlogDetalle";
+import PreguntasFrecuentes from "../pages/PreguntasFrecuentes";
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
+    <Route path="/PreguntasFrecuentes" element={<PreguntasFrecuentes />} />
     <Route path="/Nosotros" element={<Nosotros />} />
     <Route path="/Blog" element={<Blog />} />
     <Route path="/Blog/:id" element={<BlogDetalle />} />

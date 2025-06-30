@@ -6,7 +6,7 @@ import Editpost from "../paneles/Editinput.jsx";
 import { API_KEY, API_BASE_URL } from "../../../../config/env.jsx";
 import { AuthContext } from "../../../../context/AuthContext.jsx";
 
-const Registro = ({ layoutMode = 0, tipo , posts = [] }) => {
+const Registro = ({ layoutMode = 0, tipo, posts = [], onDelete, onEdit }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const { user, admin } = useContext(AuthContext);
@@ -79,12 +79,9 @@ const Registro = ({ layoutMode = 0, tipo , posts = [] }) => {
     }
   };
 
-
-
   // Función para confirmar eliminación
   const handleConfirm = async () => {
     if (!selectedKey) return;
-
     try {
       setLoading(true);
       const response = await fetch(
@@ -98,12 +95,10 @@ const Registro = ({ layoutMode = 0, tipo , posts = [] }) => {
           },
         }
       );
-
       if (!response.ok) throw new Error("Error al eliminar el registro");
-
       message.success("Registro eliminado correctamente");
       setModalOpen(false);
-
+      if (onDelete) onDelete();
     } catch (error) {
       console.error("Error:", error);
       message.error("No se pudo eliminar el registro");
@@ -119,19 +114,12 @@ const Registro = ({ layoutMode = 0, tipo , posts = [] }) => {
       message.error("Error al actualizar el post.");
       return;
     }
-
     console.log("Post actualizado recibido:", updatedPost);
-
-    // Recargar los datos después de editar
-    fetchData();
-
+    if (onEdit) onEdit();
     message.success("Post actualizado correctamente");
-
-    // Cerrar el modal y limpiar la selección
     setEditOpen(false);
     setSelectedKey(null);
   };
-  
 
   const procesarFechas = (fechaString) => {
     if (!fechaString) return "Fecha no disponible";
@@ -239,44 +227,49 @@ const Registro = ({ layoutMode = 0, tipo , posts = [] }) => {
         ];
 
   return (
-    <div className="p-4 bg-white rounded-md shadow-md">
-      <Table
-        columns={columns}
-        dataSource={processedData}
-        pagination={false}
-        loading={loading}
-        locale={{
-          emptyText: loading ? "Cargando..." : "No hay datos disponibles",
-        }}
-        className="w-full"
-      />
+    <div className="w-full">
+      {/* ✅ Contenedor que permite scroll horizontal en móviles */}
+      <div className="overflow-x-auto">
+        <div className="bg-white rounded-md shadow-md min-w-[768px] md:min-w-0 p-4">
+          <Table
+            columns={columns}
+            dataSource={processedData}
+            pagination={false}
+            loading={loading}
+            scroll={{ x: "max-content" }} // ✅ Permite scroll horizontal si es necesario
+            locale={{
+              emptyText: loading ? "Cargando..." : "No hay datos disponibles",
+            }}
+            className="w-full"
+          />
 
-      {/* Modal de confirmación para eliminar */}
-      {selectedKey && (
-        <Modal
-          id={selectedKey.titulo}
-          isOpen={modalOpen}
-          onClose={() => {
-            setModalOpen(false);
-            setSelectedKey(null);
-          }}
-          onConfirm={handleConfirm}
-        />
-      )}
+          {/* Modales */}
+          {selectedKey && (
+            <Modal
+              id={selectedKey.titulo}
+              isOpen={modalOpen}
+              onClose={() => {
+                setModalOpen(false);
+                setSelectedKey(null);
+              }}
+              onConfirm={handleConfirm}
+            />
+          )}
 
-      {/* Modal de edición */}
-      {selectedKey && (
-        <Editpost
-          id={selectedKey.id}
-          isOpen={editOpen}
-          onClose={() => {
-            setEditOpen(false);
-            setSelectedKey(null);
-          }}
-          onSubmit={handleEditSubmit}
-          Tipo={tipo}
-        />
-      )}
+          {selectedKey && (
+            <Editpost
+              id={selectedKey.id}
+              isOpen={editOpen}
+              onClose={() => {
+                setEditOpen(false);
+                setSelectedKey(null);
+              }}
+              onSubmit={handleEditSubmit}
+              Tipo={tipo}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
