@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import Crush1 from "../components/Crush1";
 import alumnosImg from "../assets/calendar2.jpg";
 import docentesImg from "../assets/calendar3.jpg";
-import padre1 from "../assets/padre1.jpg";
-import padre2 from "../assets/padre2.jpg";
-import madre1 from "../assets/madre1.jpg";
-import madre2 from "../assets/madre2.jpg";
+import padre1 from "../assets/padree1.png";
+import padre2 from "../assets/padree2.png";
+import madre1 from "../assets/madree1.png";
+import madre2 from "../assets/madree2.png";
 import galeria1 from "../assets/galeria1.jpg";
 import galeria2 from "../assets/galeria2.jpg";
 import galeria3 from "../assets/galeria3.jpg";
@@ -404,28 +404,23 @@ const Comunidad = () => {
 
       {/* SECCIÓN GALERÍA */}
       <section className="bg-[#f0e4d0] text-[#003049] py-20 px-4 sm:px-10 lg:px-24">
-        <h2
-          className="text-4xl md:text-5xl font-bold text-center mb-12"
-          data-aos="fade-up"
-        >
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">
           Galería
         </h2>
 
         {/* Botones de filtro */}
         <div className="flex justify-center gap-4 flex-wrap mb-14">
-          {categorias.map((cat, idx) => (
+          {categorias.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategoriaActiva(cat)}
-              className={`px-6 py-2 rounded-full font-semibold tracking-wide text-base transition-all duration-300
+              className={`px-6 py-2 rounded-full font-semibold tracking-wide text-base
           ${
             categoriaActiva === cat
-              ? "bg-white text-[#445da7] shadow-lg scale-105"
-              : "bg-[#780000] text-white hover:bg-[#6b85da]"
+              ? "bg-white text-[#445da7] border border-[#445da7]"
+              : "bg-[#780000] text-white"
           }
         `}
-              data-aos="fade-up"
-              data-aos-delay={idx * 70}
             >
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
             </button>
@@ -433,30 +428,27 @@ const Comunidad = () => {
         </div>
 
         {/* Galería de imágenes */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {galeriaFiltrada.map((item, i) => (
-            <div
-              key={i}
-              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
-              data-aos="zoom-in-up"
-              data-aos-delay={i * 80}
-            >
-              <img
-                src={item.src}
-                alt={`Galería ${i + 1}`}
-                className="w-full h-[250px] sm:h-[280px] md:h-[300px] object-cover transition-transform duration-700 group-hover:scale-110 group-hover:brightness-105"
-              />
-
-              {/* Capa oscura al pasar mouse */}
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition duration-300 rounded-2xl"></div>
-
-              {/* Efecto de brillo en movimiento */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
-                <div className="w-1/3 h-full bg-gradient-to-l from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 blur-xl animate-pulse"></div>
+        {galeriaFiltrada.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {galeriaFiltrada.map((item, i) => (
+              <div
+                key={i}
+                className="relative rounded-2xl overflow-hidden shadow-lg"
+              >
+                <img
+                  src={item.src}
+                  alt={`Galería ${i + 1}`}
+                  className="w-full h-[250px] sm:h-[280px] md:h-[300px] object-cover"
+                />
+                <div className="absolute inset-0 bg-black/20 rounded-2xl"></div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-lg text-gray-600 mt-8">
+            No hay imágenes para esta categoría.
+          </p>
+        )}
       </section>
 
       {/* FOOTER */}
