@@ -17,51 +17,93 @@ const PreguntasFrecuentes = () => {
   const faqs = [
     {
       id: 1,
-      category: "General",
+      category: "Admisión",
       icon: <HelpCircle className="w-5 h-5" />,
-      question: "¿Cómo puedo crear una cuenta?",
+      question: "¿En qué fechas se realizan las matrículas?",
       answer:
-        "Puedes crear una cuenta haciendo clic en el botón 'Registrarse' en la esquina superior derecha. Solo necesitas tu email y crear una contraseña segura. El proceso toma menos de 2 minutos y recibirás un email de confirmación.",
+        "Nuestro proceso de Admisión 2026 inicia en julio del 2025 y finaliza en marzo del 2026. Recomendamos estar atentos a nuestras redes sociales y página web, donde se publicará el cronograma detallado y los requisitos para cada fase del proceso.",
     },
     {
       id: 2,
-      category: "Seguridad",
+      category: "Horarios",
       icon: <Shield className="w-5 h-5" />,
-      question: "¿Mis datos están seguros?",
+      question: "¿Cuál es el horario de clases?",
       answer:
-        "Absolutamente. Utilizamos encriptación de grado bancario (SSL 256-bit) para proteger toda tu información. Nuestros servidores están certificados y cumplimos con los más altos estándares de seguridad internacional.",
+        "El horario de clases varía según el nivel educativo: el nivel Inicial tiene clases hasta la 1:30 p.m., Primaria hasta las 2:00 p.m. y Secundaria hasta las 2:20 p.m. Las clases inician a las 7:30 a.m. en todos los niveles, de lunes a viernes.",
     },
     {
       id: 3,
-      category: "Características",
+      category: "Costos",
       icon: <Star className="w-5 h-5" />,
-      question: "¿Qué funciones incluye el plan gratuito?",
+      question: "¿Cuánto cuesta la pensión mensual?",
       answer:
-        "El plan gratuito incluye acceso a todas las funciones básicas: hasta 5 proyectos, 1GB de almacenamiento, soporte por email y acceso a nuestra comunidad. Es perfecto para comenzar y probar nuestra plataforma.",
+        "La pensión mensual varía según el nivel educativo: para Inicial es de S/ 300, para Primaria S/ 315 y para Secundaria S/ 345. Estos montos están diseñados para brindar una educación de calidad a un costo accesible.",
     },
     {
       id: 4,
-      category: "Soporte",
+      category: "Plataforma",
       icon: <Users className="w-5 h-5" />,
-      question: "¿Cómo puedo contactar al soporte técnico?",
+      question: "¿Cómo accedo a la plataforma virtual del colegio?",
       answer:
-        "Ofrecemos múltiples canales de soporte: chat en vivo 24/7, email (soporte@ejemplo.com), y una base de conocimientos completa. Los usuarios premium también tienen acceso a soporte telefónico prioritario.",
+        "Puedes acceder a la plataforma virtual del colegio a través del enlace SIGEDU disponible en nuestra página web. Al hacer clic, serás redirigido al portal donde podrás ingresar con tu usuario y contraseña asignados. ",
     },
+
     {
       id: 5,
-      category: "Características",
-      icon: <Zap className="w-5 h-5" />,
-      question: "¿Puedo cambiar mi plan en cualquier momento?",
+      category: "Admisión",
+      icon: <HelpCircle className="w-5 h-5" />,
+      question: "¿El colegio ofrece becas o descuentos?",
       answer:
-        "Sí, puedes actualizar o reducir tu plan cuando quieras desde tu panel de control. Los cambios se reflejan inmediatamente y solo pagas la diferencia prorrateada. No hay penalizaciones por cambios.",
+        "Sí, el colegio cuenta con un programa de becas y descuentos para estudiantes con alto rendimiento académico, necesidades económicas comprobadas o hermanos matriculados.",
     },
     {
       id: 6,
-      category: "General",
+      category: "Admisión",
       icon: <HelpCircle className="w-5 h-5" />,
-      question: "¿Ofrecen reembolsos?",
+      question: "¿Qué documentos necesito para matrícula o traslado?",
       answer:
-        "Ofrecemos una garantía de reembolso completo de 30 días sin preguntas. Si no estás satisfecho por cualquier razón, te devolvemos tu dinero. Para planes anuales, el período de reembolso se extiende a 60 días.",
+        "Para realizar la matrícula o traslado al colegio, se requiere presentar los siguientes documentos: copia del DNI del estudiante y apoderado, partida de nacimiento, libreta de notas del último año cursado, constancia de matrícula y de no adeudo del colegio de origen (en caso de traslado), ficha única de matrícula (SIAGIE), y una foto tamaño carnet.",
+    },
+    {
+      id: 7,
+      category: "Horarios",
+      icon: <HelpCircle className="w-5 h-5" />,
+      question: "¿El colegio tiene horario extendido o tutorías?",
+      answer:
+        "Sí, el colegio ofrece servicio de horario extendido para estudiantes de Inicial y Primaria, disponible hasta las 4:00 p.m. Este espacio incluye actividades recreativas y apoyo académico.",
+    },
+    {
+      id: 8,
+      category: "Horarios",
+      icon: <HelpCircle className="w-5 h-5" />,
+      question: "¿Qué actividades extracurriculares ofrece el colegio?",
+      answer:
+        "El colegio ofrece diversas actividades extracurriculares que complementan la formación integral de los estudiantes. Entre ellas se incluyen talleres de música, preparación para concursos de matemáticas en horario vespertino y el uso de mesas de tenis de mesa para fomentar la actividad física y la recreación. ",
+    },
+    {
+      id: 9,
+      category: "Costos",
+      icon: <Star className="w-5 h-5" />,
+      question:
+        "¿Hay cargos adicionales por materiales, excursiones o actividades especiales?",
+      answer:
+        "Sí, durante el año se solicita una cuota adicional para cubrir actividades especiales, como celebraciones, talleres, salidas educativas y el aniversario del colegio. Estos aportes son comunicados con anticipación y están destinados a garantizar una mejor organización y participación de los estudiantes. ",
+    },
+    {
+      id: 10,
+      category: "Plataforma",
+      icon: <Users className="w-5 h-5" />,
+      question: "¿Cómo accedo a la plataforma virtual del colegio?",
+      answer:
+        "Puedes acceder a la plataforma virtual del colegio a través del enlace SIGEDU disponible en nuestra página web. Al hacer clic, serás redirigido al portal donde podrás ingresar con tu usuario y contraseña asignados. ",
+    },
+    {
+      id: 11,
+      category: "Plataforma",
+      icon: <Users className="w-5 h-5" />,
+      question: "¿Cómo puedo comunicarme con los profesores?",
+      answer:
+        "Puedes comunicarte con los profesores a través de la plataforma virtual SIGEDU, donde podrás enviar mensajes directos o revisar los comunicados. También es posible coordinar reuniones o consultas mediante la agenda escolar o contactando a la tutora del aula. ",
     },
   ];
 
@@ -80,10 +122,10 @@ const PreguntasFrecuentes = () => {
 
   const getCategoryColor = (category) => {
     const colors = {
-      General: "bg-blue-100 text-blue-800",
-      Seguridad: "bg-green-100 text-green-800",
-      Características: "bg-purple-100 text-purple-800",
-      Soporte: "bg-orange-100 text-orange-800",
+      Admisión: "bg-blue-100 text-blue-800",
+      Horarios: "bg-green-100 text-green-800",
+      Costos: "bg-purple-100 text-purple-800",
+      Plataforma: "bg-orange-100 text-orange-800",
     };
     return colors[category] || "bg-gray-100 text-gray-800";
   };

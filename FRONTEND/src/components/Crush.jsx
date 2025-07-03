@@ -206,7 +206,7 @@ const Crush = ({ pict, onVerEventos, onVerComunicados }) => {
       </div>
 
       {/* Estilos CSS personalizados */}
-      <style jsx>{`
+      <style>{`
         @keyframes float-0 {
           0%,
           100% {

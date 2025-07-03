@@ -72,15 +72,12 @@ const Eventos = () => {
         <SearchP placeholder="Buscar eventos..." onSearch={handleSearch} />
       </div>
 
-      {/* Scroll horizontal en móviles */}
+      {/* Scroll horizontal solo en móviles */}
       <div
-        style={{
-          width: "100%",
-          overflowX: "auto",
-          WebkitOverflowScrolling: "touch",
-        }}
+        className="w-full"
+        style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}
       >
-        <div style={{ width: "900px" }}>
+        <div className="w-full lg:w-auto" style={{ minWidth: 0 }}>
           <Registro
             layoutMode={1}
             tipo={"Evento"}

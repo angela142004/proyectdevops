@@ -45,13 +45,13 @@ const Hero = () => {
   return (
     <div className="overflow-x-hidden">
       <div className="relative w-full h-[100vh] md:min-h-screen bg-gradient-to-br from-[#003049] via-[#fdf0d5] to-[#780000] flex flex-col md:flex-row justify-between">
-        {/* Imagen de fondo desenfocada */}
+        {/* Imagen de fondo nítida */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-80 blur-[2px] z-0"
+          className="absolute inset-0 bg-cover bg-center opacity-85 z-0"
           style={{ backgroundImage: `url(${logo})` }}
         />
 
-        {/* Degradado adicional */}
+        {/* Capa de degradado adicional */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -100,9 +100,9 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Caja de datos */}
+        {/* Caja de datos con rebote */}
         <div
-          className="relative z-10 p-4 w-full md:w-auto flex justify-center md:absolute md:bottom-20 md:right-6"
+          className="relative z-10 p-4 w-full md:w-auto flex justify-center md:absolute md:bottom-20 md:right-6 animate-bounce-slow"
           data-aos="fade-left"
         >
           <div className="bg-[#003049] text-white px-4 py-4 rounded-2xl shadow-2xl max-w-md w-full text-sm sm:text-base md:text-lg">
@@ -123,7 +123,7 @@ const Hero = () => {
         <div className="fixed bottom-6 right-6 z-50">
           <div className="relative group">
             <a
-              href="https://wa.me/51956260671"
+              href="https://wa.me/51922437363"
               target="_blank"
               rel="noopener noreferrer"
               className="relative bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white rounded-full p-4 shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 animate-pulse hover:animate-none"
@@ -187,7 +187,7 @@ const Hero = () => {
       )}
 
       {/* Estilos animados */}
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -215,6 +215,31 @@ const Hero = () => {
 
         .animate-bounce-slow {
           animation: bounce-slow 2s infinite ease-in-out;
+        }
+
+        @keyframes shine {
+          0% {
+            transform: translateX(-100%) rotate(25deg);
+          }
+          100% {
+            transform: translateX(200%) rotate(25deg);
+          }
+        }
+
+        .shine-effect::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -75%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.05) 100%
+          );
+          animation: shine 6s infinite linear;
         }
       `}</style>
     </div>

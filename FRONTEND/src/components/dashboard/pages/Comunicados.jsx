@@ -70,15 +70,12 @@ const Comunicados = () => {
         <SearchP placeholder="Buscar comunicados..." onSearch={handleSearch} />
       </div>
 
-      {/* Scroll horizontal para móviles */}
+      {/* Scroll horizontal solo en móviles */}
       <div
-        style={{
-          width: "100%",
-          overflowX: "auto",
-          WebkitOverflowScrolling: "touch",
-        }}
+        className="w-full"
+        style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}
       >
-        <div style={{ width: "900px" }}>
+        <div className="w-full lg:w-auto" style={{ minWidth: 0 }}>
           <Registro
             layoutMode={3}
             tipo={"Comunicado"}

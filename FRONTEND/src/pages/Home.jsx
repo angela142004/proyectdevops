@@ -11,7 +11,6 @@ const Home = () => {
     <main>
       <Hero />
       <EducationalPillars />
-      <Level />
       <Testimonials />
       <Contact />
       <Footer />

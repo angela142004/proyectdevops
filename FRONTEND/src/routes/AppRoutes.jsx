@@ -13,11 +13,13 @@ import ErrorPage from "../pages/ErrorPage";
 import { Panelout } from "../components/dashboard/Panelout";
 import BlogDetalle from "../pages/BlogDetalle";
 import PreguntasFrecuentes from "../pages/PreguntasFrecuentes";
+import Registro from "../pages/Registro";
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/PreguntasFrecuentes" element={<PreguntasFrecuentes />} />
+    <Route path="/Registro" element={<Registro />} />
     <Route path="/Nosotros" element={<Nosotros />} />
     <Route path="/Blog" element={<Blog />} />
     <Route path="/Blog/:id" element={<BlogDetalle />} />

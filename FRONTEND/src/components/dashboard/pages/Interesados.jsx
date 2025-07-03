@@ -96,6 +96,15 @@ export const Interesados = () => {
       key: "nivel",
     },
     {
+      title: "Colegio de procedencia",
+      dataIndex: "colegio_procedencia",
+      key: "colegio_procedencia",
+      render: (text) =>
+        text || (
+          <span className="text-gray-400 italic">No especificado</span>
+        ),
+    },
+    {
       title: "Fecha de Envío",
       dataIndex: "createdAt",
       key: "createdAt",
@@ -124,22 +133,22 @@ export const Interesados = () => {
     >
       <h2 className="text-xl font-bold mb-4">Interesados</h2>
 
-      {/* Scroll horizontal en celulares */}
+      {/* Scroll horizontal solo en móviles */}
       <div
+        className="w-full"
         style={{
-          width: "100%",
           overflowX: "auto",
           WebkitOverflowScrolling: "touch",
         }}
       >
-        <div style={{ width: "1000px" }}>
+        <div className="w-full lg:w-auto" style={{ minWidth: 0 }}>
           <Table
             columns={columns}
             dataSource={interesados}
             loading={loading}
             pagination={{ pageSize: 5 }}
             bordered
-            scroll={{ x: "max-content" }}
+            scroll={{ x: false }}
           />
         </div>
       </div>

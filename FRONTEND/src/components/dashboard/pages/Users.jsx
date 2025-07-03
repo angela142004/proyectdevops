@@ -57,15 +57,12 @@ const Users = () => {
         <FormularioUsuario onFinish={handleCrearUsuario} />
       </ModalGeneral>
 
-      {/* Scroll horizontal en móviles */}
+      {/* Scroll horizontal solo en móviles */}
       <div
-        style={{
-          width: "100%",
-          overflowX: "auto",
-          WebkitOverflowScrolling: "touch",
-        }}
+        className="w-full"
+        style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}
       >
-        <div style={{ width: "900px" }}>
+        <div className="w-full lg:w-auto" style={{ minWidth: 0 }}>
           <RegistroU reload={reload} />
         </div>
       </div>

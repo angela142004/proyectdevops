@@ -335,7 +335,7 @@ const Crush1 = ({ pict }) => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes float-0 {
           0%,
           100% {

@@ -390,7 +390,7 @@ const Comunidad = () => {
         </Swiper>
 
         {/* Estilo paginación Swiper */}
-        <style jsx>{`
+        <style>{`
           .swiper-pagination-bullet {
             background: #ffffff !important;
             opacity: 0.5;

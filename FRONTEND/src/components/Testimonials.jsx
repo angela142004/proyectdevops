@@ -248,7 +248,7 @@ const Testimonials = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .swiper-pagination-bullet {
           width: 12px;
           height: 12px;

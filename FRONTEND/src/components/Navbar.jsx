@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import insignia from "../assets/insignia_prima.png";
+import insignia from "../assets/insignia_prima_sinfondo.png";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
@@ -13,6 +13,7 @@ const Navbar = () => {
 
   const navLinks = [
     { href: "/", label: "Inicio" },
+    { href: "/Registro", label: "Registro" },
     { href: "/Nosotros", label: "Nosotros" },
     { href: "/Blog", label: "Blog" },
     { href: "/Comunicado", label: "Eventos y Comunicados" },
@@ -87,28 +88,30 @@ const Navbar = () => {
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2"
+          className="md:hidden p-2 rounded-lg border border-gray-200 bg-white/80 shadow hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all duration-200"
           aria-label="Toggle menu"
         >
           {isMenuOpen ? (
-            <HiX className="w-6 h-6" />
+            <HiX className="w-7 h-7 text-[#003049]" />
           ) : (
-            <HiMenu className="w-6 h-6" />
+            <HiMenu className="w-7 h-7 text-[#003049]" />
           )}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white/95 border-t border-gray-100 px-4 py-5 space-y-3 transition-all duration-300">
+        <div className="md:hidden bg-white/95 border-t border-gray-100 px-4 py-5 space-y-3 transition-all duration-300 shadow-xl">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               to={href}
               onClick={() => setIsMenuOpen(false)}
-              className={`block text-sm font-medium ${
-                currentPath === href ? "text-blue-600" : "text-gray-800"
-              } hover:text-blue-700`}
+              className={`block text-base font-medium rounded-lg px-3 py-2 transition-all duration-200 ${
+                currentPath === href
+                  ? "bg-blue-50 text-blue-700"
+                  : "text-gray-800 hover:bg-blue-50 hover:text-blue-700"
+              }`}
             >
               {label}
             </Link>
@@ -117,7 +120,7 @@ const Navbar = () => {
             <Link
               to="/Panel"
               onClick={() => setIsMenuOpen(false)}
-              className="block text-sm font-medium text-gray-800 hover:text-blue-700"
+              className="block text-base font-semibold rounded-lg px-3 py-2 text-blue-700 hover:bg-blue-100"
             >
               Panel
             </Link>
@@ -126,20 +129,32 @@ const Navbar = () => {
             href="https://www.prisma.sigedu.pe/login.php?usuario"
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full text-center py-2 bg-[#003049] text-white rounded-md font-medium hover:bg-[#00263d] transition"
+            className="block w-full text-center py-2 mt-2 bg-[#003049] text-white rounded-md font-medium hover:bg-[#00263d] transition"
           >
             SIGEDU
           </a>
           <Link
             to="/Login"
             onClick={() => setIsMenuOpen(false)}
-            className="block w-full text-center py-2 text-[#003049] font-medium hover:text-[#00263d] transition"
+            className="block w-full text-center py-2 mt-2 text-[#003049] font-medium hover:text-[#00263d] transition"
           >
             <User className="inline mr-1" size={18} />
             Iniciar Sesión
           </Link>
         </div>
       )}
+      <style>{`
+        @keyframes slideIn {
+          from { transform: translateX(-100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        .animate-slideIn { animation: slideIn 0.35s cubic-bezier(.39,1.73,.71,.89); }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .animate-fadeIn { animation: fadeIn 0.25s ease; }
+      `}</style>
     </nav>
   );
 };

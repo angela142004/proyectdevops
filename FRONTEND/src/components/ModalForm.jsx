@@ -3,15 +3,12 @@ import { API_KEY, API_BASE_URL } from "../../src/config/env.jsx";
 
 export default function ModalForm({ open, onClose, level }) {
   const [loading, setLoading] = useState(false);
-  //form
   if (!open) return null;
 
-  // Cerrar el modal haciendo click en el overlay
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
   };
 
-  // Definir las opciones y label según el nivel recibido
   let gradeLabel = "";
   let gradeOptions = [];
   if (level === "INICIAL") {
@@ -38,21 +35,19 @@ export default function ModalForm({ open, onClose, level }) {
     ];
   }
 
-  // Manejo del envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     const formData = new FormData(e.target);
-    // Extraer valores del formulario
     const nombre = formData.get("nombre");
     const dni = formData.get("dni");
     const telefono = formData.get("telefono");
     const correo = formData.get("correo");
     const grado = formData.get("grado");
+    const colegio_procedencia = formData.get("colegio_procedencia");
     const privacy = formData.get("privacy");
 
-    // Validación simple: si falta algún campo o no se acepta las políticas, se rechaza el envío.
     if (!nombre || !dni || !telefono || !correo || !grado || !privacy) {
       alert(
         "Por favor, completa todos los campos y acepta las políticas de privacidad."
@@ -68,14 +63,14 @@ export default function ModalForm({ open, onClose, level }) {
       correo,
       grado,
       nivel: level,
+      colegio_procedencia,
     };
 
-    // Construir headers condicionalmente
     const headers = {
       "Content-Type": "application/json",
       "x-api-key": API_KEY,
     };
-    console.log(data)
+
     try {
       const response = await fetch(`${API_BASE_URL}/prisma/upform`, {
         method: "POST",
@@ -93,7 +88,6 @@ export default function ModalForm({ open, onClose, level }) {
       setLoading(false);
     }
   };
-  
 
   return (
     <div
@@ -101,12 +95,11 @@ export default function ModalForm({ open, onClose, level }) {
       onClick={handleOverlayClick}
     >
       <div
-        className="relative bg-white bg-opacity-95 w-full max-w-md mx-auto rounded-3xl shadow-2xl border-2 border-[#003049] animate-modal-pop"
+        className="modalform-container relative bg-white bg-opacity-95 w-full max-w-xs mx-auto rounded-2xl shadow-xl border border-[#003049] animate-modal-pop px-3 sm:px-4 py-6"
         style={{
-          boxShadow: "0 10px 40px 0 #00304922, 0 0px 120px 0 #00304933",
+          boxShadow: "0 8px 30px 0 #00304922, 0 0px 80px 0 #00304933",
         }}
       >
-        {/* Botón de cerrar */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-[#a5123b] text-2xl font-bold focus:outline-none"
@@ -115,9 +108,8 @@ export default function ModalForm({ open, onClose, level }) {
           ×
         </button>
 
-        {/* Título y subrayado */}
-        <div className="text-center mt-8 mb-5">
-          <h2 className="text-3xl font-bold text-[#003049] tracking-widest drop-shadow">
+        <div className="text-center mt-6 mb-4">
+          <h2 className="text-2xl font-bold text-[#003049] tracking-widest drop-shadow">
             {level === "INICIAL"
               ? "Inicial"
               : level === "PRIMARIA"
@@ -126,10 +118,10 @@ export default function ModalForm({ open, onClose, level }) {
               ? "Secundaria"
               : "Nivel"}
           </h2>
-          <div className="h-2 w-20 mx-auto rounded-full bg-gradient-to-r from-[#6698BC] to-[#003049] mt-2 mb-2"></div>
+          <div className="h-2 w-16 mx-auto rounded-full bg-gradient-to-r from-[#6698BC] to-[#003049] mt-1.5 mb-2"></div>
         </div>
 
-        <form className="flex flex-col gap-5 px-8 pb-8" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-3 pb-4" onSubmit={handleSubmit}>
           {[
             {
               label: "Nombre Completo",
@@ -151,7 +143,7 @@ export default function ModalForm({ open, onClose, level }) {
           ].map(({ label, placeholder, id, type }) => (
             <div key={id}>
               <label
-                className="block text-[#003049] font-semibold mb-1 ml-1"
+                className="block text-[#003049] font-semibold mb-1 ml-1 text-sm"
                 htmlFor={id}
               >
                 {label}
@@ -160,7 +152,7 @@ export default function ModalForm({ open, onClose, level }) {
                 id={id}
                 name={id}
                 type={type || "text"}
-                className="w-full px-4 py-2.5 rounded-xl border border-[#003049] bg-white/70 shadow-inner
+                className="modalform-input w-full px-3 py-2 rounded-xl border border-[#003049] bg-white/70 shadow-inner
                   focus:ring-2 focus:ring-[#6698BC] focus:border-[#003049] outline-none
                   placeholder-gray-400 transition-all duration-200"
                 placeholder={placeholder}
@@ -169,10 +161,9 @@ export default function ModalForm({ open, onClose, level }) {
             </div>
           ))}
 
-          {/* Campo select para "Grado" o "Edad" según el nivel */}
           <div>
             <label
-              className="block text-[#003049] font-semibold mb-1 ml-1"
+              className="block text-[#003049] font-semibold mb-1 ml-1 text-sm"
               htmlFor="grado"
             >
               {gradeLabel}
@@ -180,7 +171,7 @@ export default function ModalForm({ open, onClose, level }) {
             <select
               id="grado"
               name="grado"
-              className="w-full px-4 py-2.5 rounded-xl border border-[#003049] bg-white/70 shadow-inner
+              className="modalform-select w-full px-3 py-2 rounded-xl border border-[#003049] bg-white/70 shadow-inner
                   focus:ring-2 focus:ring-[#6698BC] focus:border-[#003049] outline-none
                   transition-all duration-200"
             >
@@ -193,7 +184,25 @@ export default function ModalForm({ open, onClose, level }) {
             </select>
           </div>
 
-          {/* Aceptar términos y condiciones */}
+          <div>
+            <label
+              className="block text-[#003049] font-semibold mb-1 ml-1 text-sm"
+              htmlFor="colegio_procedencia"
+            >
+              Colegio de procedencia (opcional)
+            </label>
+            <input
+              id="colegio_procedencia"
+              name="colegio_procedencia"
+              type="text"
+              className="w-full px-3 py-2 rounded-xl border border-[#003049] bg-white/70 shadow-inner
+                focus:ring-2 focus:ring-[#6698BC] focus:border-[#003049] outline-none
+                placeholder-gray-400 transition-all duration-200"
+              placeholder="Ejemplo: Colegio Nacional ..."
+              autoComplete="off"
+            />
+          </div>
+
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -201,7 +210,7 @@ export default function ModalForm({ open, onClose, level }) {
               name="privacy"
               className="w-4 h-4 text-[#003049] border border-gray-300 rounded focus:ring-[#6698BC]"
             />
-            <label htmlFor="privacy" className="ml-2 text-sm text-gray-600">
+            <label htmlFor="privacy" className="ml-2 text-xs text-gray-600">
               Acepto las políticas de privacidad.*
             </label>
           </div>
@@ -209,24 +218,70 @@ export default function ModalForm({ open, onClose, level }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#780000] text-white font-bold py-3 mt-4 rounded-xl text-lg shadow-lg
-                hover:bg-[#a5123b] hover:shadow-[0_0_16px_#a5123bbb] transition-all duration-200 tracking-wider"
+            className="w-full bg-[#780000] text-white font-bold py-2 mt-3 rounded-xl text-base shadow-md
+                hover:bg-[#a5123b] hover:shadow-[0_0_12px_#a5123bbb] transition-all duration-200 tracking-wide"
           >
             {loading ? "Enviando..." : "ÚNETE"}
           </button>
         </form>
       </div>
 
-      {/* Animación pop-in */}
-      <style>
-        {`
-          @keyframes modal-pop {
-            0% { transform: scale(.7); opacity:0; }
-            100% { transform: scale(1); opacity:1; }
+      <style>{`
+        .modalform-input,
+        .modalform-select {
+          font-size: 0.9rem;
+          padding: 0.6rem 0.75rem;
+        }
+
+        .modalform-container h2 {
+          font-size: 1.5rem;
+        }
+
+        .modalform-container label {
+          font-size: 0.85rem;
+        }
+
+        .modalform-container button {
+          font-size: 0.95rem;
+          padding: 0.65rem;
+        }
+
+        @media (max-width: 640px) {
+          .modalform-container {
+            width: 92%;
+            padding: 0.75rem;
+            border-radius: 1rem;
           }
-          .animate-modal-pop { animation: modal-pop 0.35s cubic-bezier(.39,1.73,.71,.89); }
-        `}
-      </style>
+
+          .modalform-container h2 {
+            font-size: 1.3rem;
+          }
+
+          .modalform-input,
+          .modalform-select {
+            font-size: 0.9rem;
+            padding: 0.6rem 0.8rem;
+          }
+
+          .modalform-container label {
+            font-size: 0.8rem;
+          }
+
+          .modalform-container button {
+            font-size: 0.9rem;
+            padding: 0.6rem;
+          }
+        }
+
+        @keyframes modal-pop {
+          0% { transform: scale(.7); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-modal-pop {
+          animation: modal-pop 0.35s cubic-bezier(.39, 1.73, .71, .89);
+        }
+      `}</style>
     </div>
   );
 }
