@@ -8,16 +8,18 @@ import { Interesados } from "../pages/Interesados";
 
 const DashboardRoutes = () => {
   return (
-    <Routes>
-      {/* Ruta predeterminada */}
-      <Route index element={<PanelA />} />
-      <Route path="/Eventos" element={<Eventos />} />
-      <Route path="/Publicaciones" element={<Publicaciones />} />
-      <Route path="/Comunicados" element={<Comunicados />} />
-      <Route path="/Usuarios" element={<Users />} />
-      <Route path="/Interesados" element={<Interesados />} />
-      {/* Ruta para manejar 404 */}
-    </Routes>
+    <div>
+      <Routes>
+        {/* Ruta predeterminada */}
+        <Route index element={<PanelA />} />
+        <Route path="/Eventos" element={<Eventos />} />
+        <Route path="/Publicaciones" element={<Publicaciones />} />
+        <Route path="/Comunicados" element={<Comunicados />} />
+        <Route path="/Usuarios" element={<Users />} />
+        <Route path="/Interesados" element={<Interesados />} />
+        {/* Ruta para manejar 404 */}
+      </Routes>
+    </div>
   );
 };
 

@@ -4,6 +4,7 @@ import Barra from "../components/Barra";
 import Header from "../components/Header";
 import Stats from "../components/paneles/Stats";
 import PublicacionesRecientes from "../components/paneles/Publicacionreciente";
+import EditableEnlaces from "../components/paneles/EditableEnlaces.jsx";
 import AccionesRapidas from "../components/paneles/Accionesrapidas";
 import GestionContenido from "../components/paneles/Gestion";
 import { API_BASE_URL, API_KEY } from "../../../config/env.jsx";
@@ -101,6 +102,7 @@ export default function PanelA() {
           {/* Columna principal */}
           <div className="xl:col-span-2 flex flex-col gap-6 order-2 xl:order-1">
             <PublicacionesRecientes />
+            {admin && <EditableEnlaces />}
           </div>
 
           {/* Columna secundaria */}

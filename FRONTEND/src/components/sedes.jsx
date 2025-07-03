@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { API_KEY, API_BASE_URL } from "../config/env.jsx";
 
 const extraVideos = [
   {
@@ -19,8 +20,40 @@ const extraVideos = [
 ];
 
 const WelcomeVideo = () => {
+  const [videos, setVideos] = useState(extraVideos);
+  const [loadingVideos, setLoadingVideos] = useState(true);
+  const [errorVideos, setErrorVideos] = useState(null);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
+  }, []);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      setLoadingVideos(true);
+      setErrorVideos(null);
+      try {
+        const res = await fetch(`${API_BASE_URL}/prisma/blog`, {
+          headers: { "x-api-key": API_KEY },
+          cache: "no-cache",
+        });
+        if (!res.ok) throw new Error("Error al obtener videos");
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setVideos(
+            data.map((v) => ({ title: v.id || "Video", url: v.enlace }))
+          );
+        } else {
+          setVideos(extraVideos);
+        }
+      } catch (err) {
+        setErrorVideos(err.message);
+        setVideos(extraVideos);
+      } finally {
+        setLoadingVideos(false);
+      }
+    };
+    fetchVideos();
   }, []);
 
   return (
@@ -63,7 +96,7 @@ const WelcomeVideo = () => {
           data-aos="fade-up"
           data-aos-delay="200"
         >
-          <FaMapMarkerAlt className="text-lg text-[#003049] animate-bounce-slow" />
+          <FaMapMarkerAlt className="text-lg text-[#003049] animate-bounce-slow" />w
           <span className="text-[#003049] md:text-lg leading-relaxed">
             Mira nuestro video institucional y conoce el espíritu Prisma.
           </span>
@@ -89,7 +122,7 @@ const WelcomeVideo = () => {
           className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 items-start"
           data-aos="fade-up"
         >
-          {extraVideos.map((video, i) => (
+          {videos.map((video, i) => (
             <div
               key={i}
               className="aspect-video rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-transform hover:scale-105 border border-white/20 backdrop-blur-md bg-white/20"

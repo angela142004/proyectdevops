@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { API_KEY, API_BASE_URL } from "../config/env.jsx";
 import Typewriter from "typewriter-effect";
 import logo from "../assets/prisma_logo.jpg";
 import {
@@ -13,6 +14,11 @@ import {
 
 const Hero = () => {
   const [showModal, setShowModal] = useState(false);
+  const [videoUrl, setVideoUrl] = useState([
+    "https://www.youtube.com/embed/K5o7U1WrJXc?autoplay=1&rel=0&modestbranding=1",
+  ]);
+  const [loadingVideo, setLoadingVideo] = useState(true);
+  const [errorVideo, setErrorVideo] = useState(null);
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
@@ -41,6 +47,28 @@ const Hero = () => {
       document.removeEventListener("keydown", handleEscape);
     };
   }, [showModal]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/prisma/home`, {
+          headers: { "x-api-key": API_KEY },
+          cache: "no-cache",
+        });
+        if (!res.ok) throw new Error("Error al obtener los videos");
+        const data = await res.json();
+        // Guarda todos los enlaces en un array
+        if (Array.isArray(data) && data.length > 0) {
+          setVideoUrl(data.map((item) => item.enlace));
+        }
+      } catch (err) {
+        setErrorVideo(err.message);
+      } finally {
+        setLoadingVideo(false);
+      }
+    };
+    fetchVideos();
+  }, []);
 
   return (
     <div className="overflow-x-hidden w-full">
@@ -172,8 +200,7 @@ const Hero = () => {
             >
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
-                src="https://www.youtube.com/embed/bwetv-77C2I?autoplay=1&rel=0&modestbranding=1"
-                title="Tour Virtual Colegio Prisma"
+                src={videoUrl[0]}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen

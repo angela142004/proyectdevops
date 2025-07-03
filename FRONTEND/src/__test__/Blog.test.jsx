@@ -2,6 +2,7 @@
 /* global jest */
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { test, expect } from "@jest/globals";
 import Blog from "../pages/Blog";
 
 // Mocks de los componentes hijos
@@ -35,6 +36,41 @@ describe("Blog Component", () => {
     expect(screen.getByTestId("SeccionIngresantes")).toBeInTheDocument();
     expect(screen.getByTestId("InicioEscolar")).toBeInTheDocument();
     expect(screen.getByTestId("WelcomeVideo")).toBeInTheDocument();
+    expect(screen.getByTestId("Footer")).toBeInTheDocument();
+  });
+
+  test("Fondo se renderiza correctamente", () => {
+    render(<Blog />);
+    expect(screen.getByTestId("Fondo")).toBeInTheDocument();
+  });
+
+  test("Blog_post se renderiza correctamente", () => {
+    render(<Blog />);
+    expect(screen.getByTestId("BlogPost")).toBeInTheDocument();
+  });
+
+  test("SeccionPadres se renderiza correctamente", () => {
+    render(<Blog />);
+    expect(screen.getByTestId("SeccionPadres")).toBeInTheDocument();
+  });
+
+  test("SeccionIngresantes se renderiza correctamente", () => {
+    render(<Blog />);
+    expect(screen.getByTestId("SeccionIngresantes")).toBeInTheDocument();
+  });
+
+  test("InicioEscolar se renderiza correctamente", () => {
+    render(<Blog />);
+    expect(screen.getByTestId("InicioEscolar")).toBeInTheDocument();
+  });
+
+  test("WelcomeVideo se renderiza correctamente", () => {
+    render(<Blog />);
+    expect(screen.getByTestId("WelcomeVideo")).toBeInTheDocument();
+  });
+
+  test("Footer se renderiza correctamente", () => {
+    render(<Blog />);
     expect(screen.getByTestId("Footer")).toBeInTheDocument();
   });
 });
