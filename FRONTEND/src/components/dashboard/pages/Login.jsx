@@ -164,16 +164,6 @@ export default function Login() {
                   {isLoading ? "INGRESANDO..." : "INGRESAR"}
                 </Button>
               </form>
-
-              <div className="text-center text-sm text-gray-600">
-                ¿No tienes cuenta?{" "}
-                <a
-                  href="/register"
-                  className="text-blue-600 hover:underline font-medium"
-                >
-                  Regístrate aquí
-                </a>
-              </div>
             </CardContent>
           </Card>
 

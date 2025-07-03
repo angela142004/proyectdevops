@@ -61,7 +61,7 @@ export default function SwiperMetodologia() {
 
   return (
     <section
-      className="relative min-h-screen bg-[#f0e4d0] py-20 px-4 sm:px-8 overflow-hidden"
+      className="relative bg-[#f0e4d0] py-20 px-4 sm:px-8 overflow-hidden"
       style={{ backgroundColor: "#f0e4d0" }}
     >
       {/* Fondo animado con partículas */}
@@ -86,138 +86,107 @@ export default function SwiperMetodologia() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-block">
-            <h2 className="text-5xl sm:text-6xl font-black text-[#334E68] mb-6 tracking-tight">
-              Metodología
-              <span className="block  bg-clip-text text-[#334E68] text-4xl sm:text-5xl font-light mt-2">
-                Innovadora
-              </span>
-            </h2>
-          </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-amber-500 mx-auto mb-8 rounded-full"></div>
+        <div className="text-center mb-16">
+          <h2 className="text-5xl sm:text-6xl font-black text-[#334E68] mb-4 tracking-tight">
+            Metodología
+            <span className="block text-4xl sm:text-5xl font-light mt-2">
+              Innovadora
+            </span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-amber-500 mx-auto mb-6 rounded-full"></div>
           <p className="text-amber-800 text-xl max-w-2xl mx-auto leading-relaxed">
             Transformamos la educación con enfoques revolucionarios
           </p>
         </div>
 
         {/* Swiper Container */}
-        <div className="relative">
-          <Swiper
-            modules={[Pagination, Autoplay, EffectCoverflow]}
-            effect="coverflow"
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView="auto"
-            coverflowEffect={{
-              rotate: 15,
-              stretch: 0,
-              depth: 300,
-              modifier: 1,
-              slideShadows: true,
-            }}
-            autoplay={{
-              delay: 4000,
-              disableOnInteraction: false,
-            }}
-            pagination={{
-              clickable: true,
-              renderBullet: function (index, className) {
-                return `<span class="${className} custom-bullet" data-index="${index}"></span>`;
-              },
-            }}
-            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-            className="metodologia-coverflow"
-          >
-            {metodologia.map((item, index) => {
-              const IconComponent = item.icon;
-              const isActive = index === activeIndex;
+        <Swiper
+          modules={[Pagination, Autoplay, EffectCoverflow]}
+          effect="coverflow"
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView="auto"
+          coverflowEffect={{
+            rotate: 15,
+            stretch: 0,
+            depth: 300,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+            renderBullet: function (index, className) {
+              return `<span class="${className} custom-bullet" data-index="${index}"></span>`;
+            },
+          }}
+          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+          className="metodologia-coverflow"
+        >
+          {metodologia.map((item, index) => {
+            const IconComponent = item.icon;
+            const isActive = index === activeIndex;
 
-              return (
-                <SwiperSlide key={index} className="!w-80 sm:!w-96">
-                  <div
-                    className={`relative bg-white/80 backdrop-blur-xl rounded-3xl border border-amber-200/50 shadow-2xl overflow-hidden transition-all duration-700 ${
-                      isActive
-                        ? "shadow-2xl shadow-amber-500/30 scale-105"
-                        : "shadow-xl"
-                    }`}
-                  >
-                    {/* Animated border gradient */}
-                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-orange-500/20 via-amber-500/20 to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                    {/* Content container */}
-                    <div className="relative p-4 h-96 flex flex-col">
-                      {/* Icon section */}
-                      <div className="flex items-center justify-between mb-8">
-                        <div className="relative">
-                          <div
-                            className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-110"
-                            style={{ backgroundColor: item.accent }}
-                          >
-                            <IconComponent className="w-8 h-8 text-white" />
-                          </div>
-                          <div
-                            className="absolute -inset-2 rounded-2xl opacity-30 blur-lg transition-all duration-300"
-                            style={{ backgroundColor: item.accent }}
-                          ></div>
-                        </div>
-
-                        {/* Index number */}
-                        <div className="text-6xl font-black text-amber-900/20 select-none">
-                          {String(index + 1).padStart(2, "0")}
-                        </div>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="text-2xl font-bold text-amber-900 mb-4 leading-tight">
-                        {item.title}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-amber-800/80 leading-relaxed flex-grow text-sm">
-                        {item.description}
-                      </p>
-
-                      {/* Action button */}
-                      <div className="mt-6 pt-6 border-t border-amber-200/50">
-                        <button
-                          className="group flex items-center text-amber-700 hover:text-amber-900 transition-colors duration-300"
-                          style={{ color: isActive ? item.accent : undefined }}
-                        >
-                          <span className="text-sm font-medium">
-                            Conocer más
-                          </span>
-                          <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
-                        </button>
-                      </div>
-
-                      {/* Decorative elements */}
-                      <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+            return (
+              <SwiperSlide key={index} className="!w-80 sm:!w-96">
+                <div
+                  className={`relative bg-white/80 backdrop-blur-xl rounded-3xl border border-amber-200/50 overflow-hidden transition-all duration-700 ${
+                    isActive ? "shadow-amber-500/30 scale-105" : "shadow-xl"
+                  }`}
+                >
+                  <div className="relative p-4 min-h-[24rem] flex flex-col">
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="relative">
                         <div
-                          className="w-full h-full rounded-full"
+                          className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-110"
+                          style={{ backgroundColor: item.accent }}
+                        >
+                          <IconComponent className="w-8 h-8 text-white" />
+                        </div>
+                        <div
+                          className="absolute -inset-2 rounded-2xl opacity-30 blur-lg transition-all duration-300"
                           style={{ backgroundColor: item.accent }}
                         ></div>
                       </div>
+                      <div className="text-6xl font-black text-amber-900/20 select-none">
+                        {String(index + 1).padStart(2, "0")}
+                      </div>
                     </div>
-
-                    {/* Bottom accent line */}
-                    <div
-                      className="absolute bottom-0 left-0 right-0 h-1 transition-all duration-500"
-                      style={{
-                        background: isActive
-                          ? `linear-gradient(90deg, ${item.accent}, ${item.accent}80)`
-                          : "rgba(255,255,255,0.1)",
-                      }}
-                    ></div>
+                    <h3 className="text-2xl font-bold text-amber-900 mb-4 leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-amber-800/80 leading-relaxed flex-grow text-sm">
+                      {item.description}
+                    </p>
+                    <div className="mt-6 pt-6 border-t border-amber-200/50">
+                      <button
+                        className="group flex items-center text-amber-700 hover:text-amber-900 transition-colors duration-300"
+                        style={{ color: isActive ? item.accent : undefined }}
+                      >
+                        <span className="text-sm font-medium">Conocer más</span>
+                        <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
+                      </button>
+                    </div>
                   </div>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div>
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-1 transition-all duration-500"
+                    style={{
+                      background: isActive
+                        ? `linear-gradient(90deg, ${item.accent}, ${item.accent}80)`
+                        : "rgba(255,255,255,0.1)",
+                    }}
+                  ></div>
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
 
         {/* Progress indicators */}
-        <div className="flex justify-center mt-16 space-x-3">
+        <div className="flex justify-center mt-10 md:mt-6 space-x-3">
           {metodologia.map((_, index) => (
             <div
               key={index}
@@ -233,7 +202,7 @@ export default function SwiperMetodologia() {
 
       <style>{`
         .metodologia-coverflow {
-          padding: 50px 0 80px;
+          padding-bottom: 0 !important;
         }
         .metodologia-coverflow .swiper-slide {
           background-position: center;
@@ -244,7 +213,7 @@ export default function SwiperMetodologia() {
           z-index: 2;
         }
         .metodologia-coverflow .swiper-pagination {
-          bottom: 20px !important;
+          bottom: 10px !important;
         }
         .custom-bullet {
           width: 12px;
